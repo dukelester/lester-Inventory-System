@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+    width:100%;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 2px;
+    text-align: left;
+}
+table#t01 tr:nth-child(even) {
+    background-color: #eee;
+}
+table#t01 tr:nth-child(odd) {
+   background-color: #fff;
+}
+/* table#t01 th {
+    background-color: black;
+    color: white;
+} */
+body{
+    font-size: 12px;
+}
+h1,h2,h3,h4,h5,h6,p{
+    padding: 0;
+    margin: 0;
+}
+img{
+    float: left;
+}
+</style>
+</head>
+<body>
+
+
+<table id="t01">
+
+ <tr>
+    <th colspan="5" style="text-align: center;">
+        <div style="text-align: center">
+            <h3 style="padding-top: 5px; margin: 0;">DELIEVERY CHALLAN / INVOICE<span style="white-space: pre;">               MOB NO :- 9423222798 & 9881212348</span></h3>
+            <p style="padding: 0; font-size: 40px; margin: 0;"><img src="{{ logo }}" style="height: 40px; width: 70px; margin-left: 30px;"> Vaibhav Engineering works</p>
+            <p style="padding-bottom: 2px; margin: 0; font-size: 15px;">An ISO 9001:2014 CERTIFICATION</p>
+            <h3 style="padding-bottom: 5px; margin: 0;">
+                    S.No.15/11/3, Old Warje Jakat Naka, Behind Kakde City, Karvanagar
+            </h3>
+            <p style="margin: 0; padding: 0;"><b>Email</b>: malivp94@gmail.com | <b>GSTIN:</b> 27APGPM6700G1ZZ | <b>PAN No:</b> APGPM6700G<br></p>
+        </div>
+    </th>
+ </tr>
+
+  <tr>
+    <td colspan = "2"><b>To, M/s:</b> {{ company_name }} <br><b>GSTIN :</b> 27AAACV6873B1ZA</td>
+    <td colspan = "3"><b>Your Challan: </b>{{ your_challan }} <br> <b>Dated: </b>{{ dated }}</td>
+  </tr> 
+
+  <tr>
+    <td colspan = "2"><b>Invoice No : <span style="font-size: 20px;">{{ challan_number }}</span></b><br><b>Date :</b> {{ date }}</td>
+    <td colspan = "3"><b>Vendor No :</b> V0113<br> <b>HSN  / SAC Code : </b>{{ hsc_number }}</td>
+  </tr>
+
+  <tr>
+    <th style="text-align: center; width: 70%">Particular</th> 
+    <th style="text-align: center; width: 25%">Weight(kg)</th>
+    <th style="text-align: center; width: 15%">Quantity</th>
+    <th style="text-align: center; width: 25%">Rate</th> 
+    <th style="text-align: center; width: 25%">Amount</th>
+  </tr>
+  {% for work in works %}
+  <tr>
+        <td>{{ work.code }}<br>{{ work.vendor_name }}<br>
+            {% if work.po_number %}PO No.: {{ work.po_number }}{% endif %}<br>
+            {% if work.jc_number %}JS No.: {{ work.jc_number }}{% endif %} 
+        </td>     
+        <td>{{ work.weight }}<br>{% if work.bags %}{{ work.bags }}{% else %}0{% endif %} Bags/Box</td>
+        <td>{{ work.quantity }}</td>
+        <td>{{ work.rate }}</td>
+        <td>{{ work.amount }}</td>
+    </tr>
+  {% endfor %}
+
+  <!-- {% if works|length == 1 %}
+    <tr style="border-bottom-style: hidden;">
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+    </tr>
+    <tr style="border-bottom-style: hidden;">
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+    </tr>
+    <tr>
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+    </tr>
+  {% endif %}
+
+  {% if works|length == 2 %}
+    <tr style="border-bottom-style: hidden;">
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+    </tr>
+    <tr>
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+        <td style="padding-top: 100px;"> </td>
+    </tr>
+  {% endif %} -->
+
+<tr>
+    <td><b>CGST ({{ cgst }} %):</b> {{ cgst_amount|floatformat }}<br>
+    <b>SGST ({{ sgst }} %):</b> {{ sgst_amount|floatformat }}</td>
+    <td><b>Total:</b> {{ total|floatformat }}</td>
+    <td colspan="3"><b>Grand Total:</b> {{ grand_total|floatformat }}</td>
+</tr>
+
+<tr>
+    <td colspan="5">
+        Rs. {{ amount_in_words }}
+    </td>
+</tr>
+
+<tr>
+    <td colspan="3">
+        <div style="text-align: center">
+            Receives the above mentioned goods in good working condition
+        </div>
+        <br>
+        <div style="width: 100%">
+            <span class="left" style="white-space: pre;">Send Through                                                            Received By</span>
+        </div>
+    </td>
+    <td colspan="2">
+        <br>
+        <div style="vertical-align: bottom !important; text-align: center">
+            For Vaibhav Engineering Works
+        </div>
+    </td>
+</tr>
+</table>
+<br>
+
+</body>
+</html>
